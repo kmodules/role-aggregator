@@ -86,6 +86,9 @@ func (a *aggregator) addRule(rule rbacv1.PolicyRule) {
 
 	for _, group := range groups {
 		for _, resource := range resources {
+			if shouldSkipRule(group, resource) {
+				continue
+			}
 			key := ruleKey{
 				apiGroup:         group,
 				resource:         resource,
@@ -94,6 +97,10 @@ func (a *aggregator) addRule(rule rbacv1.PolicyRule) {
 			a.insertVerbs(key, verbs)
 		}
 	}
+}
+
+func shouldSkipRule(apiGroup, resource string) bool {
+	return apiGroup == "policy" && resource == "podsecuritypolicies"
 }
 
 func (a *aggregator) insertVerbs(key ruleKey, verbs []string) {

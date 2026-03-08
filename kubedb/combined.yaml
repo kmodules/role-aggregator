@@ -842,12 +842,6 @@ rules:
   - list
   - patch
 - apiGroups:
-  - policy
-  resources:
-  - podsecuritypolicies
-  verbs:
-  - use
-- apiGroups:
   - postgres.kubedb.com
   resources:
   - '*'
